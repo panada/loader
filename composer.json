@@ -15,5 +15,10 @@
     "require-dev": {
         "phpunit/phpunit": "4.*"
     },
+    "autoload": {
+        "psr-4": {
+            "Panada\\Loader\\": ""
+        }
+    },
     "minimum-stability": "dev"
 }
