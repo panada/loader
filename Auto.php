@@ -122,7 +122,7 @@ class Auto
     {
         foreach($val as $val) {
             $folder = trim($val, '/').'/';
-            $file   = str_replace('\\', '/', $class);
+            $file   = str_replace(['\\', '_'], '/', $class);
             $file   = '/'.$folder.$file.'.php';
             $this->composerIncludeFile($file);
         }
