@@ -46,19 +46,15 @@ class Auto
         }
         
         // check file by \ separator
-        if(! $this->getFileMap($class, '\\')) {
-            
-            // or check file by _ separator
-            if(! $this->getFileMap($class, '_')) {
-                $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 3)[2];
-        
-                throw new LoaderException('Resource ' . $class . ' not available! please check your class or namespace name.', 0, 1, $trace['file'], $trace['line']);
-            }
+        if(! $this->getFileMap($class)) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 3)[2];
+            throw new LoaderException('Resource ' . $class . ' not available! please check your class or namespace name.', 0, 1, $trace['file'], $trace['line']);
         }
     }
     
-    private function getFileMap($class, $separator)
+    private function getFileMap($class)
     {
+        $separator = (strpos($class, '_') === false) ? '\\':'_';
         $prefix = explode($separator, $class);
         $ns     = null;
         $list   = self::$psrs;
@@ -100,7 +96,7 @@ class Auto
      */
     private function composerALpsr0($file, $class)
     {
-        $file .= str_replace('_', '/', $class).'.php';
+        $file .= str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
         
         $this->composerIncludeFile($file);
     }
@@ -121,9 +117,9 @@ class Auto
     private function composerALns($key, $val, $class)
     {
         foreach($val as $val) {
-            $folder = trim($val, '/').'/';
-            $file   = str_replace(['\\', '_'], '/', $class);
-            $file   = '/'.$folder.$file.'.php';
+            $folder = trim($val, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $file   = str_replace(['\\', '_'], DIRECTORY_SEPARATOR, $class);
+            $file   = DIRECTORY_SEPARATOR .$folder.$file.'.php';
             $this->composerIncludeFile($file);
         }
     }
