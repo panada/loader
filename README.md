@@ -1,3 +1,3 @@
 # Panada Loader
 
-Composer alternative autoloader with some slight difference.
+Composer alternative autoloader with some difference perspective.
