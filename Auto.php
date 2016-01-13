@@ -117,10 +117,10 @@ class Auto
     private function composerALns($key, $val, $class)
     {
         foreach($val as $val) {
-            $folder = trim($val, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-            $file   = str_replace(['\\', '_'], DIRECTORY_SEPARATOR, $class);
-            $file   = DIRECTORY_SEPARATOR .$folder.$file.'.php';
-            $this->composerIncludeFile($file);
+            $folder = str_replace(['\\', '_', '/'], DIRECTORY_SEPARATOR, $val) . DIRECTORY_SEPARATOR;
+            $file   = str_replace(['\\', '_', '/'], DIRECTORY_SEPARATOR, $class);
+            
+            $this->composerIncludeFile($folder.$file.'.php');
         }
     }
     
